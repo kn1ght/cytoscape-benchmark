@@ -1,11 +1,8 @@
-import svg from './assets/question.svg';
-import bird from './assets/bird.jpg';
-import corrupted from './assets/corrupted.png';
-
 const NODE_SIZE = 20;
+const IMAGE_SIZE = 200;
 const cors = 'https://www.svgrepo.com/show/4733/samples.svg';
 
-export const useStyles = () => {
+export const getStyles = () => {
     return [
         {
             selector: 'edge',
@@ -20,8 +17,22 @@ export const useStyles = () => {
             selector: "node",
             style: {
               "background-image": (node) => {
-                const {img} = node.data();
-                return img.src;
+                const {type, bgColor} = node.data();
+                
+                switch(type) {
+                  case 'jpg': {
+                    return `https://dummyimage.com/${IMAGE_SIZE}x${IMAGE_SIZE}/${bgColor}/fff.jpg`; 
+                  }
+                  case 'png': {
+                    return `https://dummyimage.com/${IMAGE_SIZE}x${IMAGE_SIZE}/${bgColor}/fff.png`;
+                  }
+                  case 'corrupted': {
+                    return `https://placeholder.pics/svg/${IMAGE_SIZE}/${bgColor}`;
+                  }
+                  case 'cors': {
+                    return cors;
+                  }
+                }
               },
               "background-width": "100%",
               "background-height": "100%",
