@@ -7,11 +7,11 @@ const MIN_ZOOM = 0.1;
 const MAX_ZOOM = 1;
 
 function main() {
-    const elements = generateElements(1000);
+    const elements = generateElements(1500);
     const container = document.getElementById('cy');
 
     const cy = cytoscape({
-        container: container,
+        container,
         maxZoom: MAX_ZOOM,
         minZoom: MIN_ZOOM,
         zoom: MAX_ZOOM,
@@ -28,6 +28,4 @@ function main() {
     cy.style(styles);
 }
 
-console.time('doSomething')
 main();
-console.timeEnd('doSomething')

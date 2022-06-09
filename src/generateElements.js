@@ -1,20 +1,26 @@
-const NODE_SIZE = 20;
-
 const getRandomColor = () => "000000".replace(/0/g,function(){return (~~(Math.random()*16)).toString(16);});
 
-const getNode = () => {
+const getNode = (unhealthy) => {
     const bgColor = getRandomColor();
     const random = Math.random();
     let type;
 
-    if (random < 0.25) {
-        type = 'jpg';
-    } else if (random < 0.5) {
-        type = 'png';
-    } else if (random < 0.75) {
-        type = 'corrupted';
+    if (unhealthy) {
+        if (random < 0.25) {
+            type = 'jpg';
+        } else if (random < 0.5) {
+            type = 'png'; 
+        } else if (random < 0.75) {
+            type = 'corrupted';
+        } else {
+            type = 'cors';
+        }
     } else {
-        type = 'cors';
+        if (random < 0.5) {
+            type = 'jpg';
+        } else {
+            type = 'png';
+        }
     }
 
     return {data: {
@@ -24,11 +30,11 @@ const getNode = () => {
     }};
 }
 
-const generateNodes = (quantity) => {
+const generateNodes = (quantity, unhealthy) => {
     const nodes = [];
 
     for (let i = 0; i < quantity; i++) {
-        nodes.push(getNode());
+        nodes.push(getNode(unhealthy));
     }
 
     return nodes;
@@ -49,11 +55,11 @@ const generateEdges = (nodes) => {
         }
     
         return edges;
-    }, [])
+    }, []);
 }
 
-export const generateElements = (quantity) => {
-    const nodes = generateNodes(quantity);
+export const generateElements = (quantity, unhealthy) => {
+    const nodes = generateNodes(quantity, unhealthy);
     const edges = generateEdges(nodes);
 
     return {nodes, edges};
